@@ -1,4 +1,22 @@
+/*
+-------------------------------------------------------------------------------
+DDL Script: Create Gold Views
+-------------------------------------------------------------------------------
+Script Purpose:
+    • creates views for the Gold layer in the data warehouse. 
+    • The Gold layer represents the final dimension and fact tables (Star Schema)
 
+    Each view performs transformations and combines data from the Silver layer 
+    to produce a clean, enriched, and business-ready dataset.
+
+Usage:
+    • These views can be queried directly for analytics and reporting.
+-------------------------------------------------------------------------------
+*/
+
+-- -------------------------------------------------------------------------------
+-- Create Dimension: gold.dim_customers
+-- -------------------------------------------------------------------------------
 
 IF OBJECT ID('gold.dim_customer', 'V') IS NOT NULL
 	DROP VIEW gold.dim_customer;
@@ -25,7 +43,9 @@ LEFT JOIN silver.erp_loc_a101 la
 ON la.cid = ci.cst_key;
 GO
 
-
+-- -------------------------------------------------------------------------------
+-- Create Dimension: gold.dim_products
+-- -------------------------------------------------------------------------------
 IF OBJECT ID('gold.dim_products', 'V') IS NOT NULL
 	DROP VIEW gold.dim_products;
 GO
@@ -49,7 +69,9 @@ ON pc.id = pn.cat_id
 WHERE pn.prd_end_dt IS NULL;
 GO
 
-
+-- -------------------------------------------------------------------------------
+-- Create Fact Table: gold.fact_sales
+-- -------------------------------------------------------------------------------
 IF OBJECT ID('gold.fact_sales', 'V') IS NOT NULL
 	DROP VIEW gold.fact_sales;
 GO
